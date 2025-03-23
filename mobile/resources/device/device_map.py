@@ -1,6 +1,8 @@
-capabilities = dict(
+adnroid_device = dict(
     deviceName="Android",
     platformName="Android",
-    platformVersion="14",
-    automationName="UiAutomator2"
+    platformVersion="15",
+    automationName="UiAutomator2",
+    appActivity='.MainActivity',
 )
+appium_sever_url = "http://localhost:4723"
