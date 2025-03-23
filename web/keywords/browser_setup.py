@@ -12,6 +12,6 @@ class BrowserSetup:
         driver_path = Config.WEBDRIVER_PATH
         service = Service(driver_path)
         driver = webdriver.Chrome(service=service)
-        driver.implicitly_wait(26)
+        driver.implicitly_wait(30)
         driver.maximize_window()
         return driver

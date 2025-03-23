@@ -1,25 +1,20 @@
 import unittest
-import HtmlTestRunner
 import sys
 import os
-import shutil
 
-web_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(web_root)
-report_dir = os.path.join(web_root, "reports")
-if os.path.exists(report_dir):
-    shutil.rmtree(report_dir)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from keywords.browser_setup import BrowserSetup
 from keywords.login_keyword import LoginPage
 from keywords.homePage_keyword import HomePage
 from resources.testdata.testdata import TestData
 from resources.config.config_web import Config
+from tests.auto_generate_report import run_tests
 
 class LoginTest(unittest.TestCase):
     """Testcase Cho chức năng đăng nhập"""
     @classmethod
     def setUpClass(cls):
-        """Mở trình duyệt trước khi chạy test đầu tiên"""
+        """Mở trình duyệt trước khi chạy tất cả các test"""
         cls.driver = BrowserSetup.get_driver()
         cls.driver.get(Config.LOGIN_URL)
         cls.login_page = LoginPage(cls.driver)
@@ -41,9 +36,8 @@ class LoginTest(unittest.TestCase):
         self.login_page.click_login_btn()
         self.login_page.verify_error_login()
         
-    @classmethod
-    def tearDownClass(cls):
-        cls.driver.quit()
+    def tearDownClass(self):
+        self.driver.quit()
 
 def TestSuite():
     test_suite = unittest.TestSuite()
@@ -52,5 +46,5 @@ def TestSuite():
     return test_suite
 
 if __name__ == "__main__":
-    runner = HtmlTestRunner.HTMLTestRunner(output=report_dir)
+    runner = run_tests()
     runner.run(TestSuite())

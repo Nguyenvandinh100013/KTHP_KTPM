@@ -7,4 +7,5 @@ class HomePage:
     def __init__(self,driver):
         self.driver = driver
     def verify_logo_profile_visible(self):
-        self.driver.find_element("xpath",HomePage_Locator.LOGO_PROFILE)
+        self.driver.find_element("xpath",HomePage_Locator.lbl_logo_user)
+    def 
