@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">Unittest Results</h2>
-                <p class='attribute'><strong>Start Time: </strong>2025-03-22 18:05:29</p>
-                <p class='attribute'><strong>Duration: </strong>13.93 s</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 1, Pass: 1</p>
+                <p class='attribute'><strong>Start Time: </strong>2025-03-25 11:44:03</p>
+                <p class='attribute'><strong>Duration: </strong>17.79 s</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 1, Pass: 0, Error: 1</p>
             </div>
         </div>
         <div class="row">
@@ -21,23 +21,35 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>__main__.Test</th>
+                            <th>__main__.Post_Product_Test</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class='success'>
-                            <td class="col-xs-10">test</td>
+                        <tr class='warning'>
+                            <td class="col-xs-10">test_post_product</td>
                             <td class="col-xs-1">
-                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                                <span class="label label-warning" style="display:block;width:40px;">Error</span>
                             </td>
                             <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">TypeError: presence_of_element_located() takes 1 positional argument but 2 were given</p><p style="color:maroon;">Traceback (most recent call last):
+  File "c:\Users\Documents\Web-Programming\KTHP_KTPM\web\tests\test_post_product.py", line 18, in test_post_product
+    self.post_product_page.post_product_by_admin("cam", "rau củ", "test post product", "200", "Shino", "Còn hàng", "cam1.jpg", "cam2.jpg", "cam3.jpg", "cam4.jpg")
+  File "c:\Users\Documents\Web-Programming\KTHP_KTPM\web\keywords\post_product_keyword.py", line 32, in post_product_by_admin
+    wait.until(EC.presence_of_element_located(*Post_Product_Locator.lbl_my_product_page))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: presence_of_element_located() takes 1 positional argument but 2 were given
+</p>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 1, Pass: 1 -- Duration: 13.93 s
+                                Total: 1, Pass: 0, Error: 1 -- Duration: 17.79 s
                             </td>
                         </tr>
                     </tbody>

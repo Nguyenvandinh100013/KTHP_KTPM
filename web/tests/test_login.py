@@ -1,14 +1,7 @@
-import unittest
-import sys
-import os
-
+import unittest , sys , os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from keywords.browser_setup import BrowserSetup
-from keywords.login_keyword import LoginPage
+from resources.init import *
 from keywords.homePage_keyword import HomePage
-from resources.testdata.testdata import TestData
-from resources.config.config_web import Config
-from tests.auto_generate_report import run_tests
 
 class LoginTest(unittest.TestCase):
     """Testcase Cho chức năng đăng nhập"""
@@ -35,9 +28,10 @@ class LoginTest(unittest.TestCase):
         self.login_page.enter_password("wrongpass")
         self.login_page.click_login_btn()
         self.login_page.verify_error_login()
-        
-    def tearDownClass(self):
-        self.driver.quit()
+    
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
 
 def TestSuite():
     test_suite = unittest.TestSuite()

@@ -1,5 +1,8 @@
 from selenium.webdriver.common.by import By
-
+import os , sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from keywords.homePage_keyword import HomePage
+from resources.testdata.testdata import TestData
 
 class LoginPage:
     def __init__(self,driver):
@@ -22,3 +25,10 @@ class LoginPage:
         self.driver.find_element(*self.txt_error_messeges)
     def verify_login_page_visible(self):
         self.driver.find_element(*self.btn_login_button)
+    def Login(self,email=TestData.admin_account.email,password=TestData.admin_account.password):
+        home_page = HomePage(self.driver)
+        self.open_login_page()
+        self.enter_username(email)
+        self.enter_password(password)
+        self.click_login_btn()
+        home_page.verify_logo_profile_visible()
