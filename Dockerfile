@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y \
     libcups2 \
     fonts-liberation \
     libappindicator3-1 \
-    libindicator7 \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
