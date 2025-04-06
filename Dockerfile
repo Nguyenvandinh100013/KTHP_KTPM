@@ -40,6 +40,6 @@ COPY ./web/* /app/
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
-
+RUN ls -R /app
 # Chạy một test mẫu khi container khởi động (tùy chọn)
 CMD ["pytest", "tests"]
