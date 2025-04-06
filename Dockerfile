@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
+    python3 \
     libnss3 \
     libgdk-pixbuf2.0-0 \
     libxss1 \
@@ -24,7 +25,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install
 
 # Cài đặt Selenium và WebDriver
-RUN pip install selenium pytest HtmlTestRunner
+RUN pip install selenium pytest
+RUN python3 install HtmlTestRunner
 
 # Đặt biến môi trường để chỉ định đường dẫn tới Chrome
 ENV CHROME_BIN=/usr/bin/google-chrome-stable
