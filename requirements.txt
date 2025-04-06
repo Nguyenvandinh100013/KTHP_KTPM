@@ -1,3 +1,3 @@
 selenium
-pip install html-testRunner
-appium
+html-testRunner
+Appium-Python-Client
