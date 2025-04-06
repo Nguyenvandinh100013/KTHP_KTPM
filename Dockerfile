@@ -42,4 +42,4 @@ COPY ./web /app/
 WORKDIR /app
 RUN ls -R /app
 # Chạy một test mẫu khi container khởi động (tùy chọn)
-CMD ["pytest", "web/tests"]
+CMD ["pytest", "/app/tests"]
