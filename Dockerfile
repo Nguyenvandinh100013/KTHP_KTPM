@@ -36,7 +36,7 @@ RUN mv chromedriver /usr/local/bin/
 RUN chmod +x /usr/local/bin/chromedriver
 
 # Copy mã nguồn vào container (nếu cần thiết)
-COPY ./web /app
+COPY ./web/* /app/
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
