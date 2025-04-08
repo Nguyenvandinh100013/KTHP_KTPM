@@ -25,7 +25,7 @@ jobs:
           pip install selenium pytest html-testRunner
 
       - name: Add chromedriver to PATH
-        run: copy web\driver\chromedriver.exe C:\Windows\System32
+        run: copy web\resources\driver\chromedriver.exe C:\Windows\System32
 
       - name: Run tests (report will be auto-generated in ./web/reports)
         run: pytest web/tests
