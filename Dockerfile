@@ -22,24 +22,23 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Thêm repo Google Chrome và cài đặt
-RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-signing-keyring.gpg && \
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-signing-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && apt-get install -y google-chrome-stable
+# Cài đặt Google Chrome phiên bản 134.0.6998.179 (tương thích với ChromeDriver 134.0.0.0)
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
 
-# Tự động lấy ChromeDriver tương thích
-RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
-    DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}") && \
+# Cài ChromeDriver tương ứng với Chrome v134
+RUN DRIVER_VERSION=134.0.0.0 && \
     wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
 
-# Cài các thư viện Python cần thiết
+# Cài thư viện Python
 RUN pip install --upgrade pip && \
     pip install selenium pytest html-testRunner
 
-# Biến môi trường để chỉ định đường dẫn Chrome
+# Biến môi trường cho Chrome
 ENV CHROME_BIN=/usr/bin/google-chrome
 ENV PATH=$PATH:/usr/local/bin
 
