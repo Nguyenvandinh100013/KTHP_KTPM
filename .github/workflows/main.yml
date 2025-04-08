@@ -25,8 +25,13 @@ jobs:
           pip install selenium pytest html-testRunner
 
       - name: Add chromedriver to PATH
-        run: |
-          copy web\resources\driver\chromedriver.exe C:\Windows\System32
+        run: copy web\drivers\chromedriver.exe C:\Windows\System32
 
-      - name: Run tests
-        run: pytest ./web/tests
+      - name: Run tests (report will be auto-generated in ./web/reports)
+        run: pytest web/tests
+
+      - name: Upload test report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-report
+          path: web/reports/report.html
