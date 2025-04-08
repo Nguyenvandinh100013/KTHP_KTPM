@@ -1,11 +1,12 @@
 FROM python:3.11-slim
 
-# Cài thư viện hệ thống
+# Cài các thư viện hệ thống cần thiết
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
     gnupg \
+    ca-certificates \
     fonts-liberation \
     libatk-bridge2.0-0 \
     libnss3 \
@@ -21,29 +22,31 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Cài Chrome phiên bản ổn định (114.0.5735.90)
-RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb && \
-    dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || apt-get -fy install && \
-    rm google-chrome-stable_114.0.5735.90-1_amd64.deb
+# Thêm repo Google Chrome và cài đặt
+RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-signing-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-signing-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && apt-get install -y google-chrome-stable
 
-# Cài ChromeDriver tương ứng
-RUN wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
-    mv chromedriver /usr/local/bin/ && \
+# Tự động lấy ChromeDriver tương thích
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
+    DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}") && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip" && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm chromedriver_linux64.zip
+    rm /tmp/chromedriver.zip
 
-# Cài pip packages
+# Cài các thư viện Python cần thiết
 RUN pip install --upgrade pip && \
     pip install selenium pytest html-testRunner
 
-# Đặt biến môi trường
+# Biến môi trường để chỉ định đường dẫn Chrome
 ENV CHROME_BIN=/usr/bin/google-chrome
 ENV PATH=$PATH:/usr/local/bin
 
-# Copy mã nguồn
+# Copy source code vào container
 COPY ./web /app
 WORKDIR /app
 RUN ls -R /app
 
+# Mặc định chạy pytest
 CMD ["pytest", "/app/tests"]
