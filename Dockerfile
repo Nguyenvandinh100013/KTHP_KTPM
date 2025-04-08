@@ -19,33 +19,34 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-0 \
     libx11-xcb1 \
     xdg-utils \
-    --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+    software-properties-common
 
-# Cài đặt Google Chrome phiên bản 134.0.6998.179 (tương thích với ChromeDriver 134.0.0.0)
+# 👉 Thêm repo cho Debian để fix thiếu libgbm1 và libvulkan1
+RUN add-apt-repository "deb http://deb.debian.org/debian buster main" && \
+    apt-get update && \
+    apt-get install -y libgbm1 libvulkan1
+
+# Cài đặt Google Chrome phiên bản 134.0.6998.179
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
 
-# Cài ChromeDriver tương ứng với Chrome v134
+# Cài đặt ChromeDriver tương ứng
 RUN DRIVER_VERSION=134.0.0.0 && \
     wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
 
-# Cài thư viện Python
+# Cài đặt thư viện Python
 RUN pip install --upgrade pip && \
     pip install selenium pytest html-testRunner
 
-# Biến môi trường cho Chrome
 ENV CHROME_BIN=/usr/bin/google-chrome
 ENV PATH=$PATH:/usr/local/bin
 
-# Copy source code vào container
 COPY ./web /app
 WORKDIR /app
 RUN ls -R /app
 
-# Mặc định chạy pytest
 CMD ["pytest", "/app/tests"]
