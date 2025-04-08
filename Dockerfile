@@ -24,30 +24,30 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Cài đặt Google Chrome (v134.0.6341.121)
+# Cài đặt Google Chrome (v134)
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
     apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
 
-# Cài đặt ChromeDriver tương ứng
+# Cài đặt ChromeDriver tương ứng (v134)
 RUN CHROMEDRIVER_VERSION=134.0.0.0 && \
     wget -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
-    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
-    mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    unzip /tmp/chromedriver.zip -d /tmp/ && \
+    mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm -rf /tmp/chromedriver.zip /usr/local/bin/chromedriver-linux64
+    rm -rf /tmp/chromedriver*
 
 # Biến môi trường
 ENV CHROME_BIN=/usr/bin/google-chrome
 ENV PATH=$PATH:/usr/local/bin
 
-# Cài đặt thư viện Python
+# Cài thư viện Python
 RUN pip install --upgrade pip && \
     pip install selenium pytest html-testRunner
 
-# Copy source
+# Copy mã nguồn
 COPY ./web /app
 WORKDIR /app
 
-# Lệnh mặc định
+# Chạy test
 CMD ["pytest", "/app/tests"]
