@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 # Cài các thư viện hệ thống cần thiết
 RUN apt-get update && apt-get install -y \
