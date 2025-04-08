@@ -1,45 +1,57 @@
 FROM python:3.11-slim
 
-# Cài đặt các phụ thuộc cần thiết cho Chrome và Selenium
+# Cài các gói phụ thuộc cần thiết
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
-    libnss3 \
-    libgdk-pixbuf2.0-0 \
-    libxss1 \
-    libgconf-2-4 \
-    libasound2 \
+    gnupg \
+    fonts-liberation \
     libatk-bridge2.0-0 \
+    libnspr4 \
+    libnss3 \
+    libxss1 \
+    libappindicator3-1 \
+    libasound2 \
     libatk1.0-0 \
     libcups2 \
-    fonts-liberation \
-    libappindicator3-1 \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+    libdbus-1-3 \
+    libgdk-pixbuf2.0-0 \
+    libgtk-3-0 \
+    libx11-xcb1 \
+    xdg-utils \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
-# Cài đặt Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install
+# Cài đặt Google Chrome mới nhất
+RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
 
-# Cài đặt Selenium và WebDriver
-RUN pip install selenium pytest
-RUN pip install html-testRunner
+# Lấy phiên bản Chrome để tải đúng ChromeDriver
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
+    DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}") && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip" && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    rm /tmp/chromedriver.zip && chmod +x /usr/local/bin/chromedriver
 
-# Đặt biến môi trường để chỉ định đường dẫn tới Chrome
-ENV CHROME_BIN=/usr/bin/google-chrome-stable
+# Cài Python dependencies
+RUN pip install --upgrade pip
+RUN pip install selenium pytest html-testRunner
 
-# Cài đặt ChromeDriver
-RUN wget https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_linux64.zip
-RUN unzip chromedriver_linux64.zip
-RUN mv chromedriver /usr/local/bin/
-RUN chmod +x /usr/local/bin/chromedriver
+# Đặt biến môi trường
+ENV CHROME_BIN=/usr/bin/google-chrome
+ENV PATH=$PATH:/usr/local/bin
 
-# Copy mã nguồn vào container (nếu cần thiết)
-COPY ./web /app/
+# Copy mã nguồn vào container
+COPY ./web /app
 
-# Thiết lập thư mục làm việc
+# Làm việc trong thư mục /app
 WORKDIR /app
+
+# In ra cấu trúc thư mục (debug)
 RUN ls -R /app
-# Chạy một test mẫu khi container khởi động (tùy chọn)
+
+# Mặc định chạy test
 CMD ["pytest", "/app/tests"]
