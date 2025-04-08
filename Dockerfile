@@ -1,4 +1,3 @@
-# Sử dụng image chính thức của Python 3.11
 FROM python:3.11-slim
 
 # Cài đặt các phụ thuộc cần thiết cho Chrome và Selenium
