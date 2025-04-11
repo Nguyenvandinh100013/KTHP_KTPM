@@ -1,4 +1,4 @@
-name: Selenium Python Tests on Windows
+name: Selenium Python Tests on Ubuntu
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  test-windows:
-    runs-on: windows-latest
+  test-ubuntu:
+    runs-on: ubuntu-latest
 
     env:
       CI: true
@@ -40,10 +40,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
           python -m pip install --upgrade pip
           pip install selenium pytest html-testRunner webdriver-manager
 
-      - name: Run tests (report will be auto-generated in ./web/reports)
+      - name: Run tests (headless)
         run: pytest web/tests
 
       - name: Upload test report as artifact
