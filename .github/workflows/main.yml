@@ -43,7 +43,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y chromium-browser
           python -m pip install --upgrade pip
-          pip install selenium pytest html-testRunner webdriver-manager
+          pip install selenium pytest pytest-html webdriver-manager
 
       - name: Run tests (headless)
         continue-on-error: true
