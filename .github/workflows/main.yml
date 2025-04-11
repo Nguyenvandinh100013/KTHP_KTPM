@@ -53,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: selenium-test-report
-          path: web/reports
+          path: ./web/reports
