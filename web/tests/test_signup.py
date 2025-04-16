@@ -31,6 +31,7 @@ class SignupTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+
 def TestSuite():
     test_suite = unittest.TestSuite()
     test_suite.addTest(SignupTest("test_signup_fail"))
