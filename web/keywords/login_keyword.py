@@ -1,5 +1,7 @@
-from selenium.webdriver.common.by import By
 import os , sys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from keywords.homePage_keyword import HomePage
 from resources.testdata.testdata import TestData
@@ -14,7 +16,7 @@ class LoginPage:
         self.txt_error_messeges = (By.XPATH,"//div[@class='user-message-error']")
         
     def open_login_page(self):
-        self.driver.find_element(*self.btn_menu_login).click()
+        WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.btn_menu_login)).click()
     def enter_username(self,username):
         self.driver.find_element(*self.txt_username_input).send_keys(username)
     def enter_password(self,password):
