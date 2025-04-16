@@ -11,6 +11,7 @@ class LoginTest(unittest.TestCase):
         cls.driver = BrowserSetup.get_driver()
         cls.driver.get(Config.LOGIN_URL)
         cls.login_page = LoginPage(cls.driver)
+        Web_Common.wait_for_web_load_successfully(cls.driver)
         
     def test_login(self):
         """TC_DN_05-Kiểm tra đăng nhập khi nhập vào số điện thoại và mật khẩu đã được đăng ký."""

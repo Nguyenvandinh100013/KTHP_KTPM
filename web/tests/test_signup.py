@@ -1,11 +1,8 @@
 import unittest , time , os , sys
 from selenium.webdriver.common.by import By
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from keywords.browser_setup import BrowserSetup
-from keywords.login_keyword import LoginPage
+from resources.init import *
 from keywords.signup_keyword import SignUp
-from resources.config.config_web import Config
-from tests.auto_generate_report import run_tests
 
 class SignupTest(unittest.TestCase):
     @classmethod
@@ -14,6 +11,7 @@ class SignupTest(unittest.TestCase):
         cls.driver.get(Config.LOGIN_URL)
         cls.signupPage = SignUp(cls.driver)
         cls.loginPage = LoginPage(cls.driver)
+        Web_Common.wait_for_web_load_successfully(cls.driver)
 
     def test_signup_fail(self):
         """TC_DK_03-Kiểm tra đăng ký khi nhập vào thông tin email tài khoản đã tồn tại."""

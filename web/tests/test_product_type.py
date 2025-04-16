@@ -10,6 +10,7 @@ class Product_Test(unittest.TestCase):
         self.driver.get(Config.LOGIN_URL)
         self.product_keyword = Product(self.driver)
         self.home_keyword = HomePage(self.driver)
+        Web_Common.wait_for_web_load_successfully(self.driver)
     
     def test_product_raucu(self):
         """TC_CTSP_01-Kiểm tra xem sản phẩm chi tiết sản phẩm rau củ."""

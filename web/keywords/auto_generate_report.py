@@ -1,7 +1,4 @@
-import HtmlTestRunner
-import os 
-import sys
-import shutil
+import os, sys, shutil, HtmlTestRunner
 
 web_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(web_root)

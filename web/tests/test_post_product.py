@@ -11,6 +11,7 @@ class Post_Product_Test(unittest.TestCase):
         self.driver.get(Config.LOGIN_URL)
         self.login_page = LoginPage(self.driver)
         self.post_product_page = Post_Product(self.driver)
+        Web_Common.wait_for_web_load_successfully(self.driver)
 
     def test_post_product(self):
         """TC_SP_01-Kiểm tra xem sản phẩm có được thêm vào danh sách sản phẩm không khi thêm một sản phẩm mới với đầy đủ thông tin bắt buộc"""

@@ -4,5 +4,5 @@ class TestAccount:
         self.password = password
 
 class TestData:
-    admin_account = TestAccount("shino1@gmail.com", "123456")
-    user_shino_account = TestAccount("shino@gmail.com","123456")
+    user_shino_account = TestAccount("phuctv123@gmail.com", "Password678")
+    admin_account = TestAccount("admin@gmail.com","123123")
