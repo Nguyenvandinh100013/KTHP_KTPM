@@ -16,8 +16,6 @@ jobs:
 
       - name: ⚙️ Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        with:
-          driver: docker-container
 
       - name: 📦 Restore Docker cache
         uses: actions/cache@v3
@@ -36,9 +34,33 @@ jobs:
             --tag appium-test-image \
             --load .
 
-      - name: 🚀 Run Appium container and generate report
+      - name: 🌐 Create Docker network
+        run: docker network create test-network
+
+      - name: 📱 Run Android Emulator container
         run: |
-          docker run --name appium-test-container \
+          docker run -d \
+            --name android-container \
+            --network test-network \
+            -e DEVICE="Samsung Galaxy S9" \
+            -e APPIUM=true \
+            -e WEB_VNC=true \
+            -p 4723:4723 \
+            -p 5555:5555 \
+            -p 6080:6080 \
+            --privileged \
+            budtmo/docker-android:emulator_13.0
+
+      - name: ⏱️ Wait for Android Emulator to boot
+        run: |
+          sleep 60
+          docker logs android-container
+
+      - name: 🚀 Run Appium test container and generate report
+        run: |
+          docker run --rm \
+            --name appium-test-container \
+            --network test-network \
             -v ${{ github.workspace }}/report:/report \
             appium-test-image
 
