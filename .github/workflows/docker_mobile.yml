@@ -1,3 +1,11 @@
+name: Run Appium Tests and Upload Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   appium-tests:
     runs-on: ubuntu-latest
