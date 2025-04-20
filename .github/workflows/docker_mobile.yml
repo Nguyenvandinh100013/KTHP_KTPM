@@ -53,7 +53,7 @@ jobs:
 
       - name: ⏱️ Wait for Android Emulator to boot
         run: |
-          sleep 60
+          sleep 120
           docker logs android-container
 
       - name: 🚀 Run Appium test container and generate report

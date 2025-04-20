@@ -7,18 +7,15 @@ services:
     hostname: android-container
     environment:
       - DEVICE=Samsung Galaxy S9
-      - APPIUM=false
+      - APPIUM=true
       - WEB_VNC=true
     ports:
-      - "4723:4723" # Appium
-      - "4724:4724" # Appium backup
-      - "5555:5555" # ADB
-      - "6080:6080" # VNC Web UI
+      - "4723:4723"
+      - "5555:5555"
+      - "6080:6080"
     privileged: true
     volumes:
       - ./android-data:/root/.android
-      - ./init.sh:/init.sh
-    command: ["/bin/bash", "/init.sh"]
     networks:
       - test-network
 
@@ -34,6 +31,9 @@ services:
       - ANDROID_SDK_ROOT=/opt/android-sdk
     networks:
       - test-network
+    volumes:
+      - ./mobile:/app
+      - ./report:/report
 
 networks:
   test-network:
