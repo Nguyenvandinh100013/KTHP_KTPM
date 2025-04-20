@@ -1,0 +1,31 @@
+name: Run Appium Tests and Upload Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  appium-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔄 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Set up Docker
+        run: |
+          docker build -t appium-test-image .
+
+      - name: 🚀 Run Appium test container
+        run: |
+          docker run --name appium-test-container \
+            -v ${{ github.workspace }}/report:/app/report \
+            appium-test-image
+
+      - name: 📤 Upload HTML Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: appium-html-report
+          path: report/test_report.html
