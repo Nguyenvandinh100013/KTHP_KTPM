@@ -1,56 +1,56 @@
-name: Selenium Python Tests on Ubuntu
+# name: Selenium Python Tests on Ubuntu
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
 
-jobs:
-  test-ubuntu:
-    runs-on: ubuntu-latest
+# jobs:
+#   test-ubuntu:
+#     runs-on: ubuntu-latest
 
-    env:
-      CI: true
+#     env:
+#       CI: true
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
+#       - name: Set up Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: 3.11
 
-      - name: Cache pip packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+#       - name: Cache pip packages
+#         uses: actions/cache@v4
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
 
-      - name: Cache webdriver-manager downloads
-        uses: actions/cache@v4
-        with:
-          path: ~/.wdm
-          key: ${{ runner.os }}-wdm-${{ hashFiles('**/*.py') }}
-          restore-keys: |
-            ${{ runner.os }}-wdm-
+#       - name: Cache webdriver-manager downloads
+#         uses: actions/cache@v4
+#         with:
+#           path: ~/.wdm
+#           key: ${{ runner.os }}-wdm-${{ hashFiles('**/*.py') }}
+#           restore-keys: |
+#             ${{ runner.os }}-wdm-
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libglib2.0-0 libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libgtk-3-0
-          python -m pip install --upgrade pip
-          pip install selenium pytest pytest-html html-testRunner webdriver-manager openpyxl
+#       - name: Install dependencies
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y libglib2.0-0 libnss3 libxss1 libatk1.0-0 libatk-bridge2.0-0 libgtk-3-0
+#           python -m pip install --upgrade pip
+#           pip install selenium pytest pytest-html html-testRunner webdriver-manager openpyxl
 
-      - name: Run tests (headless)
-        continue-on-error: true
-        run: pytest web/tests --html=web/reports/report.html --self-contained-html
+#       - name: Run tests (headless)
+#         continue-on-error: true
+#         run: pytest web/tests --html=web/reports/report.html --self-contained-html
 
-      - name: Upload test report as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: selenium-test-report
-          path: web/reports
+#       - name: Upload test report as artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: selenium-test-report
+#           path: web/reports
