@@ -68,4 +68,3 @@ class Moblie_Keywword:
     def logout(driver):
         driver.find_element(AppiumBy.XPATH, Home_Locator.nav_account).click()
         driver.find_element(AppiumBy.XPATH, Home_Locator.btn_logout).click()
-        
