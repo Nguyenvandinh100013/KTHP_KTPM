@@ -7,9 +7,11 @@ RUN apt-get update && apt-get install -y \
     openjdk-21-jdk \
     python3 \
     python3-pip \
+    python3-venv \
     nodejs \
     npm \
     git \
+    adb \
     && apt-get clean
 
 # Cài Android SDK command line tools
@@ -30,24 +32,27 @@ ENV PATH="${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platf
 RUN yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses && \
     sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
-# Cài đặt Appium và driver
+# Cài Appium và driver
 RUN npm install -g appium@latest && \
     appium driver install uiautomator2
 
-# Cài đặt Appium Python client và các thư viện cần thiết
-RUN pip3 install --upgrade pip && \
-    pip3 install Appium-Python-Client selenium pytest pytest-html
+# Tạo virtual environment cho Python và cài các thư viện
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install Appium-Python-Client selenium pytest pytest-html
 
-# Thiết lập thư mục làm việc
+# Thêm Python venv vào PATH
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Thư mục làm việc
 WORKDIR /app
 COPY ./mobile /app
 
-# Mở cổng Appium server
+# Expose cổng Appium
 EXPOSE 4723
 
-# Copy script chạy hoặc test
+# Copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Lệnh chạy mặc định
 CMD ["/entrypoint.sh"]
