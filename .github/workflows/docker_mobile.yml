@@ -25,7 +25,7 @@ jobs:
             appium-test-image
 
       - name: 📤 Upload HTML Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: appium-html-report
           path: report/test_report.html
