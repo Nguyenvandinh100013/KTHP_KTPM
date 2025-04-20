@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Chạy Appium
-appium
+appium &
 
 # Kết nối với Android container qua adb
 echo "Connecting to Android container..."
