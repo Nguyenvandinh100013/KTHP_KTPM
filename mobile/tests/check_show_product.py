@@ -1,23 +1,35 @@
 import unittest , os , sys
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
 from keywords.mobile_common import Moblie_Keywword
-from keywords.prodcut_list_keyword import Product_list
+from keywords.home_keyword import Home_keyword
 
 class CheckProductTest(unittest.TestCase):
-    def setUp(self):
-        self.driver = Moblie_Keywword.open_app("Flutter")
-        Moblie_Keywword.login(self.driver)
+    """Test case cho chức năng kiểm tra sản phẩm"""
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = Moblie_Keywword.open_app("Gake")
+        Moblie_Keywword.login(cls.driver)
     
-    def testProductList(self):
-        """Kiểm tra sản phẩm rau củ"""
-        Product_list.tap_product_type_by_label(self.driver, "Rau củ")
-        Product_list.verify_product_display(self.driver,"Shino\n1 VND")
-        
-    def tearDown(self):
-        if self.driver:
-            self.driver.terminate_app("com.example.man_hinh")
-            self.driver.quit()
+    def test_ProductList(self):
+        """TC_FL_02: Kiểm tra bộ lọc danh mục sản phẩm rau củ"""
+        Home_keyword.tap_product_type_by_label(self.driver, "Rau củ")
+        Home_keyword.verify_product_display(self.driver,"Cà Rốt\n6758 VND")
+    
+    def test_check_productdetail(self):
+        """TC_FL_03: Kiểm tra hiển thị chi tiết sản phẩm theo mục danh sách sản phẩm"""
+        Home_keyword.tap_product(self.driver, "Cà Rốt\n6758 VND")
+        Home_keyword.verify_product_detail_display(self.driver, "Cà Rốt")
+        Moblie_Keywword.tap_on_back_button(self.driver)
+    
+    def test_search_product(self):
+        """TC_FL_05: Kiểm tra search sản phẩm"""
+        Home_keyword.search_product(self.driver, "cam")
+        Home_keyword.verify_product_not_display(self.driver, "Cà Rốt\n6758 VND")
+    
+    @classmethod
+    def tearDownClass(cls):
+        Moblie_Keywword.close_app(cls.driver)
+        cls.driver.quit()
 
 if __name__ == "__main__":
     unittest.main()

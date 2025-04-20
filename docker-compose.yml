@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  android-container:
+    image: budtmo/docker-android:emulator_13.0
+    container_name: android-container
+    hostname: android-container
+    environment:
+      - DEVICE=Samsung Galaxy S9
+      - APPIUM=true
+      - WEB_VNC=true
+    ports:
+      - "4723:4723" # Appium
+      - "4724:4724" # Appium backup
+      - "5555:5555" # ADB
+      - "6080:6080" # VNC Web UI
+    privileged: true
+    volumes:
+      - ./android-data:/root/.android
+    networks:
+      - test-network
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test-runner
+    depends_on:
+      - android-container
+    environment:
+      - ANDROID_HOME=/opt/android-sdk
+      - ANDROID_SDK_ROOT=/opt/android-sdk
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
