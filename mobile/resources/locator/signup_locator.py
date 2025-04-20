@@ -6,4 +6,4 @@ class SignUp_Locator:
     txt_confirm_pass = '//android.view.View[@content-desc="First Name"]/following-sibling::android.widget.EditText[5]'
     btn_sign_up = '//android.widget.Button[@content-desc="SIGN UP"]'
     # DYNAMIC
-    txt_error_signup = '//android.view.View[@content-desc="DYNAMIC"]'
+    txt_error_signup = '//android.view.View[@content-desc="_DYNAMIC_"]'

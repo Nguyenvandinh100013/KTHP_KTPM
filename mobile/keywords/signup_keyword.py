@@ -1,6 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from appium.webdriver.extensions.android.nativekey import AndroidKey
 import os , sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
 from resources.locator.home_locator import Home_Locator
@@ -43,12 +44,12 @@ class SignUp_Keyword:
         password_input.click()
         password_input.clear()
         password_input.send_keys(password)
-        Moblie_Keywword.scroll_down_to_element(SignUp_Locator.txt_confirm_pass)
+        driver.press_keycode(AndroidKey.ENTER)
         confirm_pass_input = driver.find_element(AppiumBy.XPATH, SignUp_Locator.txt_confirm_pass)
         confirm_pass_input.click()
         confirm_pass_input.clear()
-        confirm_pass.send_keys(confirm_pass)
-        Moblie_Keywword.scroll_down_to_element(SignUp_Locator.btn_sign_up)
+        confirm_pass_input.send_keys(confirm_pass)
+        driver.press_keycode(AndroidKey.ENTER)
         driver.find_element(AppiumBy.XPATH, SignUp_Locator.btn_sign_up).click()
 
     @staticmethod
