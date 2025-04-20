@@ -4,7 +4,7 @@
 appium --address 0.0.0.0 --port 4723 --log-level info &
 
 # Đợi Appium khởi động
-until curl -s http://localhost:4723/wd/hub/status | grep -q '"status": 0'; do
+until curl -s http://localhost:4723 | grep -q '"status": 0'; do
     echo "Waiting for Appium server to start..."
     sleep 5
 done
