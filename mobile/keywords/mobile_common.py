@@ -20,8 +20,10 @@ class Moblie_Keywword:
         adnroid_device["app"] = app_path
         driver = webdriver.Remote(appium_sever_url,options=UiAutomator2Options().load_capabilities(adnroid_device))
         return driver
+    
     @staticmethod
     def login(driver,username=TestData.user_account.email,password=TestData.user_account.password):
+        wait = WebDriverWait(driver, 5)
         username_field = driver.find_element(AppiumBy.XPATH,Login_Locator.txt_username)
         username_field.click()
         username_field.send_keys(username)
@@ -29,6 +31,7 @@ class Moblie_Keywword:
         email_field.click()
         email_field.send_keys(password)
         driver.find_element(AppiumBy.XPATH,Login_Locator.btn_login_button).click()
+        
     @staticmethod
     def scroll_down_to_element(driver, element_xpath,max_scrolls=5,timeout=30):
         sreen_size = driver.get_window_size()
@@ -44,3 +47,4 @@ class Moblie_Keywword:
                 return element_visible
             except:
                 driver.swipe(x,y_start,x,y_end,800)
+    
