@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from keywords.homePage_keyword import HomePage
-from resources.testdata.testdata import TestData
 
 class LoginPage:
     def __init__(self,driver):
@@ -16,7 +15,7 @@ class LoginPage:
         self.txt_error_messeges = (By.XPATH,"//div[@class='user-message-error']")
         
     def open_login_page(self):
-        WebDriverWait(self.driver, 15).until(EC.element_to_be_clickable(self.btn_menu_login)).click()
+        WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(self.btn_menu_login)).click()
     def enter_username(self,username):
         self.driver.find_element(*self.txt_username_input).send_keys(username)
     def enter_password(self,password):
@@ -27,7 +26,7 @@ class LoginPage:
         self.driver.find_element(*self.txt_error_messeges)
     def verify_login_page_visible(self):
         self.driver.find_element(*self.btn_login_button)
-    def Login(self,email=TestData.admin_account.email,password=TestData.admin_account.password):
+    def Login(self, email, password):
         home_page = HomePage(self.driver)
         self.open_login_page()
         self.enter_username(email)
