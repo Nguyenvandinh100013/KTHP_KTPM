@@ -9,7 +9,6 @@ class BrowserSetup:
     def get_driver():
         options = Options()
         is_ci = os.getenv('CI') == 'true'
-
         if is_ci:
             options.add_argument('--headless')
             options.add_argument('--disable-gpu')
@@ -25,5 +24,4 @@ class BrowserSetup:
 
         if not is_ci:
             driver.maximize_window()
-
         return driver

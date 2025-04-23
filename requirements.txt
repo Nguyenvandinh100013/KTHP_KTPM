@@ -2,3 +2,4 @@ selenium
 html-testRunner
 Appium-Python-Client
 webdriver-manager
+openpyxl

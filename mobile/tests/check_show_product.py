@@ -2,13 +2,17 @@ import unittest , os , sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
 from keywords.mobile_common import Moblie_Keywword
 from keywords.home_keyword import Home_keyword
+from keywords.csv_file.csv import CSV
+
 
 class CheckProductTest(unittest.TestCase):
     """Test case cho chức năng kiểm tra sản phẩm"""
     @classmethod
     def setUpClass(cls):
         cls.driver = Moblie_Keywword.open_app("Gake")
-        Moblie_Keywword.login(cls.driver)
+        data = CSV.read_csv_data('logindata.csv')
+        email, password = data[1]
+        Moblie_Keywword.login(cls.driver, email, password)
     
     def test_ProductList(self):
         """TC_FL_02: Kiểm tra bộ lọc danh mục sản phẩm rau củ"""
