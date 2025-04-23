@@ -11,7 +11,7 @@ class SignUp:
         self.txt_password = (By.XPATH,"//input[@id='password']")
         self.txt_corfirm_password = (By.XPATH,"//input[@id='confirmPassword']")
         self.btn_button_on_signUp = (By.XPATH,"//button[@type='submit'][contains(text(),'Đăng ký')]")
-        self.txt_error_email = (By.XPATH,"//div[@class='user-message-error']")
+        self.txt_error = (By.XPATH,"//div[@class='user-message-error']")
         
     def SignUp(self,first_name,last_name,email,password,corfirm_password):
         self.driver.find_element(*self.btn_signup_home).click()
@@ -22,6 +22,20 @@ class SignUp:
         self.driver.find_element(*self.txt_corfirm_password).send_keys(corfirm_password)
         self.driver.find_element(*self.btn_button_on_signUp).click()
     
+    def get_error_signup(self):
+        text_fail = self.driver.find_element(*self.txt_error).text
+        return text_fail
+    
     def Verify_error_email(self):
-        text_email_fail = self.driver.find_element(*self.txt_error_email).text
-        assert text_email_fail == "Email đã được sử dụng!"
+        text_email_fail = SignUp.get_error_signup(self)
+        assert text_email_fail == "Vui lòng nhập email hợp lệ!"
+
+    def get_result_signup(self, is_login_visible):
+        if is_login_visible:
+                return "PASS"
+        else:
+            return SignUp.get_error_signup(self)
+    
+    def verify_error_signup(self, error):
+        text_email_fail = SignUp.get_error_signup(self)
+        assert text_email_fail == error

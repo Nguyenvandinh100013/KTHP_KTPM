@@ -26,6 +26,8 @@ class LoginPage:
         self.driver.find_element(*self.txt_error_messeges)
     def verify_login_page_visible(self):
         self.driver.find_element(*self.btn_login_button)
+        return True
+        
     def Login(self, email, password):
         home_page = HomePage(self.driver)
         self.open_login_page()

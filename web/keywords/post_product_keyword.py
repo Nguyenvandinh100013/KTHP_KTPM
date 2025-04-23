@@ -29,4 +29,4 @@ class Post_Product:
         self.driver.find_element(*Post_Product_Locator.lbl_img_upload).send_keys(os.path.join(img_path,f"{img4}"))
         self.driver.find_element(*Post_Product_Locator.btn_post_product).click()
         wait = WebDriverWait(self.driver, 30)
-        wait.until(EC.presence_of_element_located(*Post_Product_Locator.lbl_my_product_page))
+        wait.until(EC.presence_of_element_located(Post_Product_Locator.lbl_my_product_page))
