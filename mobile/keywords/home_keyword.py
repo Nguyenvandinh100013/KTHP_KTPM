@@ -41,4 +41,8 @@ class Home_keyword:
         element = ProductList_Locator.txt_product_name.replace("_DYNAMIC_",product)
         driver.find_element(AppiumBy.XPATH, element)
         driver.find_element(AppiumBy.XPATH, ProductList_Locator.txt_brand_product)
-        
+    
+    @staticmethod
+    def verìy_logo_shop_display(driver, timeout=5):
+        wait = WebDriverWait(driver, timeout)
+        wait.until(EC.presence_of_element_located((AppiumBy.XPATH, Home_Locator.lbl_logo_gake)))

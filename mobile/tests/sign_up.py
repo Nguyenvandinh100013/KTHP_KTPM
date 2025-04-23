@@ -1,7 +1,9 @@
-import unittest , os , sys
+import unittest , os , sys, time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"..")))
 from keywords.mobile_common import Moblie_Keywword
 from keywords.signup_keyword import SignUp_Keyword
+from keywords.home_keyword import Home_keyword
+from keywords.csv_file.csv import CSV
 
 
 class SignUp_Test(unittest.TestCase):
@@ -10,6 +12,17 @@ class SignUp_Test(unittest.TestCase):
     def setUpClass(cls):
         cls.driver = Moblie_Keywword.open_app("Gake")
         SignUp_Keyword.go_to_sign_up_page(cls.driver)
+        
+    def test_signup_successfully(self):
+        """TC_DK_01: Đăng ký thanh công và dăng nhập tài khoản dã daăg kí"""
+        new_email = f"phuc{int(time.time())}@gmail.com"
+        new_password = "123123"
+        SignUp_Keyword.sign_up(self.driver, "van", "phuc", new_email, new_password, new_password)
+        SignUp_Keyword.verify_signup_successfully(self.driver)
+        Moblie_Keywword.login(self.driver, new_email, new_password)
+        Home_keyword.verìy_logo_shop_display(self.driver)
+        CSV.write_csv_file("logindata.csv",[new_email, new_password])
+        print(new_email, new_password)
         
     def test_signup_fail_first_name(self):
         """TC_DK_02: Đăng ký thất bại khi họ không hợp lệ"""

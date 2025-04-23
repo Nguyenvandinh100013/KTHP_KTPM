@@ -57,3 +57,8 @@ class SignUp_Keyword:
         element = SignUp_Locator.txt_error_signup.replace("_DYNAMIC_",error)
         wait = WebDriverWait(driver, 30)
         wait.until(EC.presence_of_element_located((AppiumBy.XPATH, element)))
+
+    @staticmethod
+    def verify_signup_successfully(driver, timeout=5):
+        wait = WebDriverWait(driver, timeout)
+        wait.until(EC.presence_of_element_located((AppiumBy.XPATH, SignUp_Locator.txt_signup_successfully)))

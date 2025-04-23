@@ -31,9 +31,11 @@ class Moblie_Keywword:
         except:
             username_field = driver.find_element(AppiumBy.XPATH,Login_Locator.txt_username)
             username_field.click()
+            username_field.clear()
             username_field.send_keys(username)
             email_field = driver.find_element(AppiumBy.XPATH,Login_Locator.txt_password)
             email_field.click()
+            email_field.clear()
             email_field.send_keys(password)
             remember_me = driver.find_element(AppiumBy.XPATH,Login_Locator.btn_remember_me)
             remember_me.click()

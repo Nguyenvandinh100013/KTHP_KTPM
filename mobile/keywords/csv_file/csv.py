@@ -12,6 +12,7 @@ class CSV:
         data_file = CSV.get_file_path(file_name)
         with open(data_file, mode='r', newline='', encoding='utf-8') as file:
             data = csv.reader(file)
+            next(data)
             return list(data)
     
     @staticmethod

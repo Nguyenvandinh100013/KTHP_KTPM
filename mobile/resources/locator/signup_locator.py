@@ -4,6 +4,7 @@ class SignUp_Locator:
     txt_email = '//android.view.View[@content-desc="First Name"]/following-sibling::android.widget.EditText[3]'
     txt_password = '//android.view.View[@content-desc="First Name"]/following-sibling::android.widget.EditText[4]'
     txt_confirm_pass = '//android.view.View[@content-desc="First Name"]/following-sibling::android.widget.EditText[5]'
+    txt_signup_successfully = '//android.view.View[@content-desc="Đăng ký thành công! Vui lòng đăng nhập."]'
     btn_sign_up = '//android.widget.Button[@content-desc="SIGN UP"]'
     # DYNAMIC
     txt_error_signup = '//android.view.View[@content-desc="_DYNAMIC_"]'
